@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Service\Mailer;
 
 /**
  * @Route("/user")
@@ -28,7 +29,9 @@ class UserController extends AbstractController
     /**
      * @Route("/signup", name="user_create")
      */
-    public function signUp(Request $request, EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+    public function signUp(Request $request, EntityManagerInterface $em,
+                           UserPasswordEncoderInterface $encoder,
+                           Mailer $mailer)
     {
         $user = new User();
 
@@ -46,7 +49,7 @@ class UserController extends AbstractController
 
             $title = 'Validation de votre compte sur MemoCode';
             $view = 'mail/signup.html.twig';
-            //$mailer->sendMail($user, $title, $view);
+            $mailer->sendMail($user, $title, $view);
 
             $this->addFlash(
                 'notice',

@@ -88,6 +88,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->setRegisteredAt(new \DateTime());
+        $this->setActive(false);
     }
 
     public function getId(): ?int
