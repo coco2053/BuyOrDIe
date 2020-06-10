@@ -5,10 +5,13 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/user")
+ */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user", name="user")
+     * @Route("", name="user_read")
      */
     public function index()
     {
@@ -16,4 +19,15 @@ class UserController extends AbstractController
             'controller_name' => 'UserController',
         ]);
     }
+
+    /**
+     * @Route("/signup", name="user_create")
+     */
+    public function signUp()
+    {
+        return $this->render('user/sign_up.html.twig', [
+            'controller_name' => 'UserController',
+        ]);
+    }
+
 }
