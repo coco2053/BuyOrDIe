@@ -45,7 +45,7 @@ class User implements UserInterface
     /**
      * @Assert\EqualTo(propertyPath="password", message="Les mots de passe entrés ne sont pas les mêmes !")
      */
-    public $confirmPassword;
+    public $repeatPassword;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -58,9 +58,9 @@ class User implements UserInterface
     private $lastname;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="date")
      */
-    private $birhtdate;
+    private $birthdate;
 
     /**
      * @ORM\Column(type="datetime")
@@ -192,14 +192,14 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBirhtdate(): ?\DateTimeInterface
+    public function getBirthdate(): ?\DateTimeInterface
     {
-        return $this->birhtdate;
+        return $this->birthdate;
     }
 
-    public function setBirhtdate(\DateTimeInterface $birhtdate): self
+    public function setBirthdate(\DateTimeInterface $birthdate): self
     {
-        $this->birhtdate = $birhtdate;
+        $this->birthdate = $birthdate;
 
         return $this;
     }
