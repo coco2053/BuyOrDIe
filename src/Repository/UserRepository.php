@@ -36,6 +36,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function checkConfirmationToken($token):? User
+    {
+        return  $this->createQueryBuilder('user')
+            ->where('user.confirmationToken = :token')
+            ->setParameter('token', $token)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function checkPasswordToken($token):? User
+    {
+        return  $this->createQueryBuilder('user')
+            ->where('user.passwordToken = :token')
+            ->setParameter('token', $token)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */

@@ -36,8 +36,16 @@
     </nav>
     <body>
         <div class="container">
+
             <div class="row">
-                {% block body %}{% endblock %}
+                <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                        <div>
+                            {% include 'include/_message.html.twig' %}
+                        </div>
+                        {% block body %}{% endblock %}
+                    </div>
+                <div class="col-sm-3"></div>
             </div>
         </div>
 

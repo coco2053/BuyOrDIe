@@ -1,1 +1,17 @@
-Bonjour {{ user.username }} ! Lien de validation du compte : <a href="#">{{ user.confirmationToken }}</a>
+{#Bonjour {{ user.username }} ! Lien de validation du compte : <a href="#">{{ user.confirmationToken }}</a> #}
+<!DOCTYPE html>
+    <html>
+        <head>
+
+        </head>
+    <body>
+        <div>
+            Bonjour <span style="color:red;">{{ user.firstname }}&thinsp;{{ user.lastname }} </span> <br>
+            Veuillez cliquer sur ce lien afin de valider votre compte : <a href="{{ url('user_validate', {'token': user.confirmationToken}) }}">{{ user.confirmationToken }}</a>
+        </div>
+        {#<div>
+            <img src="{{ app.request.getHttpHost() ~ asset('image/diggy.png') }}" alt="diggy">
+        </div>#}
+    </body>
+</html>
+
