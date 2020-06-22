@@ -1,0 +1,16 @@
+.dropzone {
+    background: white;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url("../image/upload.jpg");
+    border-radius: 5px;
+    border: 2px dashed rgb(0, 135, 247);
+    border-image: none;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top : 10px;
+    margin-bottom : 20px;
+
+}

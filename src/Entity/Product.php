@@ -25,6 +25,11 @@ class Product
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $brand;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
@@ -45,13 +50,32 @@ class Product
     private $reference;
 
     /**
-     * @ORM\OneToMany(targetEntity=ProductProperty::class, mappedBy="product")
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\OneToMany(targetEntity=ProductProperty::class, mappedBy="product", cascade={"persist", "remove"}))
      */
     private $properties;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\ProductImage", mappedBy="product", cascade={"persist", "remove"})
+     */
+    private $productImages;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="products", cascade={"persist"}))
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $category;
+
+
     public function __construct()
     {
+        $this->token = bin2hex(random_bytes(32));
         $this->properties = new ArrayCollection();
+        $this->productImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +91,18 @@ class Product
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getBrand(): ?string
+    {
+        return $this->brand;
+    }
+
+    public function setBrand(string $brand): self
+    {
+        $this->brand = $brand;
 
         return $this;
     }
@@ -119,6 +155,18 @@ class Product
         return $this;
     }
 
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
     /**
      * @return Collection|ProductProperty[]
      */
@@ -146,6 +194,48 @@ class Product
                 $property->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|ProductImage[]
+     */
+    public function getProductImages(): Collection
+    {
+        return $this->productImages;
+    }
+
+    public function addProductImage(ProductImage $productImage): self
+    {
+        if (!$this->productImages->contains($productImage)) {
+            $this->productImages[] = $productImage;
+            $productImage->setProduct($this);
+        }
+
+        return $this;
+    }
+    public function removeProductImage(ProductImage $productImage): self
+    {
+        if ($this->productImages->contains($productImage)) {
+            $this->productImages->removeElement($productImage);
+            // set the owning side to null (unless already changed)
+            if ($productImage->getProduct() === $this) {
+                $productImage->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }

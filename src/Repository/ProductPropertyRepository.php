@@ -19,6 +19,31 @@ class ProductPropertyRepository extends ServiceEntityRepository
         parent::__construct($registry, ProductProperty::class);
     }
 
+    public function findNameBeginWith($value)
+    {
+        return $this->createQueryBuilder('pp')
+            ->andWhere('pp.name LIKE :val')
+            ->setParameter('val', ''.$value.'%')
+            ->groupBy('pp.name')
+            ->orderBy('pp.name', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+    public function findValueBeginWith($value)
+    {
+        return $this->createQueryBuilder('pp')
+            ->andWhere('pp.value LIKE :val')
+            ->setParameter('val', ''.$value.'%')
+            ->groupBy('pp.value')
+            ->orderBy('pp.value', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return ProductProperty[] Returns an array of ProductProperty objects
     //  */

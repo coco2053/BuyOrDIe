@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un produit{% endblock %}
+
+{% block body %}
+
+    <div class="card">
+        <article class="card-body">
+            <header class="mb-4">
+                <h4 class="card-title">Ajouter un produit</h4>
+            </header>
+            {{ form_start(form) }}
+            <input type="hidden" name="product_token" value="{{ product.token }}">
+            <div class="form-group">
+                {{ form_row(form.category) }}
+            </div> <!-- form-group end.// -->
+                <div class="form-group">
+                    {{ form_row(form.name) }}
+                </div> <!-- form-group end.// -->
+                <div class="form-group">
+                    {{ form_row(form.brand) }}
+                </div> <!-- form-group end.// -->
+                <div class="form-group">
+                    {{ form_row(form.description) }}
+                </div> <!-- form-group end.// -->
+                <div class="form-group">
+                    <label>Ajouter une propriété</label><br>
+                    <button type="button" class="btn btn-success btn-add" data-rel="#properties"><i class="fa fa-plus"></i> <span class="text">Propriété</span></button>
+                    <div id="properties" data-index="{{ form.properties|length > 0 ? form.properties|last.vars.name+1 : 0 }}" data-prototype="{{ include("product/include/_product_property.html.twig", { form: form.properties.vars.prototype })|e("html_attr") }}">
+                        {% for property in form.properties %}
+                            {{ include("product/include/_product_property.html.twig", { form: property }) }}
+                        {% endfor %}
+                    </div>
+                </div>
+            <div class="form-group">
+                <label>Ajouter des images</label>
+                <div class="dropzone my-dropzone" id="form_snippet_image" action="{{path('ajax_image_upload')}}">
+                        <div class="dz-message">
+                        </div>
+                    </div>
+            </div>
+                <div class="form-group">
+                    {{ form_row(form.price) }}
+                </div> <!-- form-group end.// -->
+            <div class="form-group">
+                {{ form_row(form.discountPrice) }}
+            </div> <!-- form-group end.// -->
+            <div class="form-group">
+                {{ form_row(form.reference) }}
+            </div> <!-- form-group end.// -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Ajouter</button>
+            </div> <!-- form-group// -->
+            {{ form_end(form) }}
+        </article> <!-- card-body end .// -->
+    </div> <!-- card.// -->
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset("js/form_collection.js") }}"></script>
+    <script src="{{ asset('vendor/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('vendor/dropzone/min/dropzone.min.js') }}"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+        $( function() {
+            $('body').on('click', 'autocomplete, .ProductBrand, .ProductPropertyName, .ProductPropertyValue, .ProductCategory', function() {
+                $(this).autocomplete({
+                    source : function(request, response){
+                        $.ajax({
+                            url : '{{ path('ajax_product_autocomplete') }}',
+                            data : {
+                                input : $(this.element).val(),
+                                class : $(this.element).attr('class').split(' ')[0]
+                            },
+                            success : function(data){
+                                response(data.results);
+                            }
+                        });
+                    }
+                });
+            });
+            var actionToDropZone = $("#form_snippet_image").attr('action');
+            $("div#form_snippet_image").dropzone({
+                url: actionToDropZone,
+                init: function() {
+                    this.on("sending", function(file, xhr, formData) {
+                        formData.append("token", "{{ product.token }}");
+                        console.log(formData)
+                    });
+                }
+            });
+        });
+       /* $(document).on('change', '#product_newBrand', function () {
+            let $check = $(this);
+            let $form = $check.closest('form');
+            let target = '#product_brand_name';
+            let data = {};
+            console.log($check.is(':checked'));
+            data[$check.attr('name')] = $check.is(':checked');
+            $.post($form.attr('action'), data).then(function (data) {
+                // On récupère le nouveau <select>
+                let $input = $(data).find(target)
+                // On remplace notre <select> actuel
+                $(target).replaceWith($input)
+                $(target).closest('div').toggle()
+            })
+        });*/
+    </script>
+{% endblock %}
+
+

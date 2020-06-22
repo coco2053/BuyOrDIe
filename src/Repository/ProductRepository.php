@@ -19,6 +19,19 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
+    public function findBrandBeginWith($value)
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.brand LIKE :val')
+            ->setParameter('val', ''.$value.'%')
+            ->groupBy('p.brand')
+            ->orderBy('p.brand', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */

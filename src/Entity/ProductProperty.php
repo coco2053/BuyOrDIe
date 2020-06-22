@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\ProductPropertyRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -25,23 +23,18 @@ class ProductProperty
     private $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $value;
+
+    /**
      * @ORM\ManyToOne(targetEntity=Product::class, inversedBy="properties")
      */
     private $product;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=ProductPropertyValue::class)
-     */
-    private $property;
-
-    /**
-     * @ORM\OneToMany(targetEntity=ProductPropertyValue::class, mappedBy="property", orphanRemoval=true)
-     */
-    private $productPropertyValues;
-
     public function __construct()
     {
-        $this->productPropertyValues = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -61,6 +54,18 @@ class ProductProperty
         return $this;
     }
 
+    public function getValue(): ?string
+    {
+        return $this->value;
+    }
+
+    public function setValue(string $value): self
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
     public function getProduct(): ?Product
     {
         return $this->product;
@@ -69,49 +74,6 @@ class ProductProperty
     public function setProduct(?Product $product): self
     {
         $this->product = $product;
-
-        return $this;
-    }
-
-    public function getProperty(): ?ProductPropertyValue
-    {
-        return $this->property;
-    }
-
-    public function setProperty(?ProductPropertyValue $property): self
-    {
-        $this->property = $property;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|ProductPropertyValue[]
-     */
-    public function getProductPropertyValues(): Collection
-    {
-        return $this->productPropertyValues;
-    }
-
-    public function addProductPropertyValue(ProductPropertyValue $productPropertyValue): self
-    {
-        if (!$this->productPropertyValues->contains($productPropertyValue)) {
-            $this->productPropertyValues[] = $productPropertyValue;
-            $productPropertyValue->setProperty($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProductPropertyValue(ProductPropertyValue $productPropertyValue): self
-    {
-        if ($this->productPropertyValues->contains($productPropertyValue)) {
-            $this->productPropertyValues->removeElement($productPropertyValue);
-            // set the owning side to null (unless already changed)
-            if ($productPropertyValue->getProperty() === $this) {
-                $productPropertyValue->setProperty(null);
-            }
-        }
 
         return $this;
     }

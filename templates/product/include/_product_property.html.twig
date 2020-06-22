@@ -1,0 +1,9 @@
+<div class="form-row del-property-{{ form.vars.name }}">
+    <div class="col form-group">
+        {{ form_row(form.name) }}
+    </div> <!-- form-group end.// -->
+    <div class="col form-group">
+        {{ form_row(form.value) }}
+    </div> <!-- form-group end.// -->
+    <button type="button" class="btn btn-danger btn-remove fa fa-trash fa-lg" data-rel="del-property-{{ form.vars.name }}"style="margin-top:35px; margin-bottom: 35px;"></button>
+</div> <!-- form-row end.// -->

@@ -19,6 +19,17 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    public function findNameBeginWith($value)
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.name LIKE :val')
+            ->setParameter('val', ''.$value.'%')
+            ->groupBy('c.name')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Category[] Returns an array of Category objects
     //  */
