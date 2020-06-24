@@ -4,13 +4,13 @@ namespace App\Form;
 
 use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use App\Form\CategoryType;
 
 class ProductType extends AbstractType
 {
@@ -44,6 +44,10 @@ class ProductType extends AbstractType
                 'required'      => false,
                 'label'         => ' '
             ))
+            ->add('stock', IntegerType::class, [
+                'label'     =>  'Quantité',
+                'attr' => ['placeholder' => 'Entrez la quantité en stock']
+            ])
             ->add('price', MoneyType::class, [
                 'label'     =>  'Prix',
                 'attr' => ['placeholder' => 'Entrez le prix TTC']

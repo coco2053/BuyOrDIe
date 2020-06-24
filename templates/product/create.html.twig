@@ -32,13 +32,17 @@
                         {% endfor %}
                     </div>
                 </div>
-            <div class="form-group">
-                <label>Ajouter des images</label>
-                <div class="dropzone my-dropzone" id="form_snippet_image" action="{{path('ajax_image_upload')}}">
-                        <div class="dz-message">
+                <div class="form-group">
+                    <label>Ajouter des images</label>
+                    <div class="dropzone my-dropzone" id="form_snippet_image" action="{{path('ajax_image_upload')}}">
+                            <div class="dz-message">
+                            </div>
                         </div>
-                    </div>
-            </div>
+                    {{ render(controller('App\\Controller\\DocumentController::ajaxImageDisplay', {'token': product.token})) }}
+                </div>
+            <div class="form-group">
+                {{ form_row(form.stock) }}
+            </div> <!-- form-group end.// -->
                 <div class="form-group">
                     {{ form_row(form.price) }}
                 </div> <!-- form-group end.// -->
@@ -85,7 +89,12 @@
                 init: function() {
                     this.on("sending", function(file, xhr, formData) {
                         formData.append("token", "{{ product.token }}");
-                        console.log(formData)
+                    });
+                    this.on("success", function(data) {
+                        $.get('{{ path('ajax_image_display', {'token' : product.token}) }}').then(function (data) {
+                            //let $container = $(data).find('#container');
+                            $('#container').replaceWith(data)
+                        })
                     });
                 }
             });

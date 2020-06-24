@@ -1,0 +1,51 @@
+<div id="container">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Nom du fichier</th>
+            <th>Supprimer</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for image in images %}
+            <tr>
+                <td scope="row">{{ loop.index }}</td>
+                <td>{{ image.originalName }}</td>
+                <td>
+                    <button type="button" id="del-btn" class="btn btn-danger btn-remove fa fa-trash fa-lg" href="{{ path('ajax_image_delete', {'id' : image.id}) }}"></button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<script>
+    $('#del-btn').click(function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Etes-vous sur?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Oui!'
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire(
+                    'Image éffacée!',
+                    'success'
+                )
+                $.get($(this.element).attr('href')).then(function (data) {
+                    let $container = $(data).find('#container');
+                    $('#container').replaceWith($container)
+                })
+
+            }
+        })
+
+    })
+
+</script>

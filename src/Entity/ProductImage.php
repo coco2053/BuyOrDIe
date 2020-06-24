@@ -50,6 +50,11 @@ class ProductImage
     private $product;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $originalName;
+
+    /**
      * @ORM\PreRemove
      *
      * [Handles image file removal]
@@ -82,8 +87,10 @@ class ProductImage
                 return;
             }
         }
+
         $name = $this->createName();
         $this->setUrl($name);
+        $this->setOriginalName($this->file->getClientOriginalName());
 
         $this->file->move(
             $this->path, $name
@@ -170,6 +177,18 @@ class ProductImage
     public function setProductToken(?string $productToken): self
     {
         $this->productToken = $productToken;
+
+        return $this;
+    }
+
+    public function getOriginalName(): ?string
+    {
+        return $this->originalName;
+    }
+
+    public function setOriginalName(?string $originalName): self
+    {
+        $this->originalName = $originalName;
 
         return $this;
     }
