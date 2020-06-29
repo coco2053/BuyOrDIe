@@ -24,8 +24,7 @@ class CategoryRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->andWhere('c.name LIKE :val')
             ->setParameter('val', ''.$value.'%')
-            ->groupBy('c.name')
-            ->setMaxResults(10)
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
             ;

@@ -22,11 +22,10 @@ class ProductRepository extends ServiceEntityRepository
     public function findBrandBeginWith($value)
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.brand LIKE :val')
+            ->where('p.brand LIKE :val')
             ->setParameter('val', ''.$value.'%')
-            ->groupBy('p.brand')
             ->orderBy('p.brand', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
             ;

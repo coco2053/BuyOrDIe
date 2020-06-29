@@ -24,9 +24,8 @@ class ProductPropertyRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('pp')
             ->andWhere('pp.name LIKE :val')
             ->setParameter('val', ''.$value.'%')
-            ->groupBy('pp.name')
             ->orderBy('pp.name', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
             ;
@@ -36,9 +35,8 @@ class ProductPropertyRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('pp')
             ->andWhere('pp.value LIKE :val')
             ->setParameter('val', ''.$value.'%')
-            ->groupBy('pp.value')
             ->orderBy('pp.value', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults(1)
             ->getQuery()
             ->getResult()
             ;
