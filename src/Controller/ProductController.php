@@ -11,6 +11,7 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\AutoComplete;
+use App\Service\Filters;
 use App\Entity\ProductImage;
 use App\Repository\ProductImageRepository;
 use App\Repository\CategoryRepository;
@@ -27,7 +28,6 @@ class ProductController extends AbstractController
     {
         $this->em = $em;
         $this->repo = $repo;
-
     }
 
     /**
@@ -38,6 +38,35 @@ class ProductController extends AbstractController
         dd($product);
         return $this->render('product/index.html.twig', [
             'controller_name' => 'ProductController',
+        ]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name="product_edit")
+     */
+    public function edit(Product $product)
+    {
+        dd($product);
+        return $this->render('product/index.html.twig', [
+            'controller_name' => 'ProductController',
+        ]);
+    }
+
+
+    /**
+     * @Route("/list", name="product_list")
+     */
+    public function list(Request $request, Filters $filterService)
+    {
+        $data = $request->request->all();
+        $filters = [
+            'categories' => $filterService->filterCategory(),
+            'brands' => $filterService->filterBrand()
+        ];
+        $products = $filterService->filterFetch($data);
+        return $this->render('product/list.html.twig', [
+            'products' => $products,
+            'filters' => $filters
         ]);
     }
 

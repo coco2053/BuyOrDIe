@@ -58,7 +58,7 @@ class ProductType extends AbstractType
                 'attr' => ['placeholder' => 'Entrez le prix TTC de la promo']
             ])
             ->add('reference', TextType::class, [
-                'label'     =>  'Reference',
+                'label'     =>  'Référence',
                 'attr' => ['placeholder' => 'Entrez la référence du produit']
             ])
         ;

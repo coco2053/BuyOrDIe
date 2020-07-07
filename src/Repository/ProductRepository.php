@@ -31,6 +31,46 @@ class ProductRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findAllBrands()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.brand')
+            ->orderBy('p.brand', 'ASC')
+            ->groupBy('p.brand')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findByCategory($category)
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.category', 'pc')
+            ->where('pc.name LIKE :val')
+            ->setParameter('val', $category)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function filter($data)
+    {
+        $qb = $this->createQueryBuilder('p');
+        if($data['category'] != 'null') {
+            $qb->leftJoin('p.category', 'pc')
+                ->andWhere('pc.name LIKE :val')
+                ->setParameter('val', $data['category'])
+                ;
+        }
+        if($data['brand'] != 'null') {
+            $qb->andWhere('p.brand LIKE :val2')
+                ->setParameter('val2', $data['brand'])
+            ;
+        }
+        return$qb->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Product[] Returns an array of Product objects
     //  */
