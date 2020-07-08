@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="row no-gutters">
+            <aside class="col-md-6">
+                <article class="gallery-wrap">
+                    <div>
+                        {% if product.productImages is not empty %}
+                            {% set image = product.productImages.first() %}
+                            <img src="{{ asset("uploads/images/")~image.url }}">
+                        {% else %}
+                            <img src="{{ asset("image/no-image.jpg") }}">
+                        {% endif %}
+                    </div> <!-- slider-product.// -->
+                    {#<div class="thumbs-wrap">
+                        {% for image in product.productImages %}
+                            <a href="#" class="item-thumb"> <img src="{{ asset("uploads/images/")~image.url }}"></a>
+                        {% endfor %}
+                    </div> <!-- slider-nav.// -->#}
+                </article> <!-- gallery-wrap .end// -->
+            </aside>
+            <main class="col-md-6 border-left">
+                <article class="content-body">
+                    <h2 class="title">{{ product.name }}</h2>
+                    <div class="mb-3">
+                        <var class="price h4">{{ product.price }}€</var>
+                    </div> <!-- price-detail-wrap .// -->
+                    <p>{{ product.description }}</p>
+                    <hr>
+                    <div class="form-row">
+                        <div class="form-group col-md flex-grow-0">
+                            <label>Quantity</label>
+                            <div class="input-group mb-3 input-spinner">
+                                <input type="number" id="quantity" class="form-control"  min="1" max="50" value="1">
+                            </div>
+                        </div> <!-- col.// -->
+                    </div> <!-- row.// -->
+                    <a href="#" class="btn  btn-outline-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
+                </article> <!-- product-info-aside .// -->
+            </main> <!-- col.// -->
+        </div> <!-- row.// -->
+    </div> <!-- card.// -->
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+</script>
+{% endblock %}

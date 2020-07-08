@@ -35,9 +35,9 @@ class ProductController extends AbstractController
      */
     public function show(Product $product)
     {
-        dd($product);
-        return $this->render('product/index.html.twig', [
-            'controller_name' => 'ProductController',
+        //dd($product);
+        return $this->render('product/show.html.twig', [
+            'product' => $product,
         ]);
     }
 
@@ -47,7 +47,7 @@ class ProductController extends AbstractController
     public function edit(Product $product)
     {
         dd($product);
-        return $this->render('product/index.html.twig', [
+        return $this->render('product/show.html.twig', [
             'controller_name' => 'ProductController',
         ]);
     }
